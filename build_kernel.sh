@@ -1,20 +1,3 @@
-#!/bin/bash
-if [ ! -d "toolchain" ]; then
-  echo "Error: Directory $PWD/toolchain not found , Syncing Toolchain !"
-  sudo apt update
-  sudo apt install bison flex libssl-dev libarchive-tools -y
-  mkdir -p toolchain
-  cd toolchain
-  echo ' Download antman and Sync'
-  bash <(curl -s "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman") -S=05012024 # Neutron Clang 18
-  echo 'Patch for glibc'
-  bash <(curl -s "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman") --patch=glibc
-  echo ' Done'
-fi
-
-clear
-
-#exporting clang path
 PATH=$PWD/toolchain/bin:$PATH
 export LLVM_DIR=$PWD/toolchain/bin
 export LLVM=1
