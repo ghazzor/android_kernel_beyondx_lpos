@@ -1,8 +1,4 @@
 #!/bin/bash
-
-#Creating a symbolic link to avoid python issues.
-ln -s /usr/bin/python2.7 "$HOME/python"
-
 if [ ! -d "toolchain" ]; then
   echo "Error: Directory $PWD/toolchain not found , Syncing Toolchain !"
   sudo apt update
