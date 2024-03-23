@@ -3,9 +3,23 @@
 #Creating a symbolic link to avoid python issues.
 ln -s /usr/bin/python2.7 "$HOME/python"
 
-#exporting clang path
-export PATH="$HOME/":"$HOME/toolchain/proton-clang-12/bin":$PATH
+if [ ! -d "toolchain" ]; then
+  echo "  Error: Directory $PWD/toolchain not found , Syncing Toolchain !"
+  sudo apt update
+  sudo apt install bison flex libssl-dev libarchive-tools -y
+  mkdir -p toolchain
+  cd toolchain
+  echo ' Download antman and Sync'
+  bash <(curl -s "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman") -S=05012024 # Neutron Clang 18
+  echo 'Patch for glibc'
+  bash <(curl -s "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman") --patch=glibc
+  echo ' Done'
+fi
 
+#exporting clang path
+PATH=$PWD/toolchain/bin:$PATH
+export LLVM_DIR=$PWD/toolchain/bin
+export LLVM=1
 #saving current pwd as a variable
 export work_dir="$(pwd)"
 
@@ -30,18 +44,22 @@ ARCH=arm64
 PLATFORM_VERSION=12
 ANDROID_MAJOR_VERSION=s
 CC=clang
-CROSS_COMPILE=aarch64-linux-gnu-
-ARCH=arm64
-LD=ld.lld
-AR=llvm-ar
-NM=llvm-nm
-OBJCOPY=llvm-objcopy
-OBJDUMP=llvm-objdump
-READELF=llvm-readelf
-OBJSIZE=llvm-size
-STRIP=llvm-strip
-LLVM_AR=llvm-ar
-LLVM_DIS=llvm-dis
+LD='${LLVM_DIR}/ld.lld'
+CROSS_COMPILE='${LLVM_DIR}/aarch64-linux-gnu-'
+CROSS_COMPILE_ARM32='${LLVM_DIR}/arm-linux-gnueabi-'
+CLANG_TRIPLE='${LLVM_DIR}/aarch64-linux-gnu-'
+AR='${LLVM_DIR}/llvm-ar'
+NM='${LLVM_DIR}/llvm-nm'
+AS='${LLVM_DIR}/llvm-as'
+OBJCOPY='${LLVM_DIR}/llvm-objcopy'
+OBJDUMP='${LLVM_DIR}/llvm-objdump'
+READELF='${LLVM_DIR}/llvm-readelf'
+OBJSIZE='${LLVM_DIR}/llvm-size'
+STRIP='${LLVM_DIR}/llvm-strip'
+LLVM_AR='${LLVM_DIR}/llvm-ar'
+LLVM_DIS='${LLVM_DIR}/llvm-dis'
+LLVM_NM='${LLVM_DIR}/llvm-nm'
+LLVM=1
 "
 
 #your defconfig

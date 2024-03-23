@@ -22,8 +22,7 @@ jobs:
       - name: Install packages & setup
         run: |
           sudo apt update -y  
-          sudo apt install libncurses5-dev python2 libtinfo5 -y      
-          bash init_clang_12.sh
+          sudo apt install libncurses5-dev python2 libtinfo5 -y
           
       - name: Set environment variable
         run: |
@@ -31,12 +30,10 @@ jobs:
           
       - name: Building LPoS
         run: |
-          export PATH=$HOME/:$PWD/toolchain/bin:$PATH
           bash build_kernel.sh -c
 
       - name: Building LPoS + KernelSU
         run: |
-          export PATH=$HOME/:$PWD/toolchain/bin:$PATH
           bash build_kernel.sh -k          
 
       - name: Upload kernel
