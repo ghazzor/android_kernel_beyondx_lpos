@@ -31,19 +31,14 @@ jobs:
           
       - name: Building LPoS
         run: |
-          bash build_kernel.sh -c
-
-      - name: Building LPoS + KernelSU
-        run: |
-          bash build_kernel.sh -k          
+          bash build_kernel.sh 
 
       - name: Upload kernel
         uses: actions/upload-artifact@v4
         with:
           name: "LPoS-${{ env.LPOS_KERNEL_VERSION }}-[S10 5G]"
           path: |
-            out/LPoS*.zip
-            out/KSU*.zip
+            AIK/lpos*.zip
 
       - name: Create release
         uses: ncipollo/release-action@v1
@@ -53,24 +48,5 @@ jobs:
           draft: false
           prerelease: false
           token: ${{ secrets.TOKEN }}          
-          artifacts: "out/LPoS*.zip,out/KSU*.zip"
+          artifacts: "AIK/lpos*.zip"
           body: "Commit SHA: ${{ github.sha }}"
-
-      - name: Upload to Telegram
-        uses: appleboy/telegram-action@master
-        with:
-          to: ${{ secrets.TELEGRAM_CHAT_ID }}
-          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          document: "out/LPoS*.zip,out/KSU*.zip"
-          format: html
-          disable_web_page_preview: false
-          message: |
-            <b>New Kernel Build found..! 🎉</b>
-
-            <b>Device :</b> S10 5G   
-            <b>Kernel Version :</b> ${{ env.LPOS_KERNEL_VERSION }}                    
-            <b>Repository:</b> <a href="https://github.com/${{ github.repository }}">${{ github.repository }}</a>
-            
-            <b>Commit SHA:</b> <a href="https://github.com/${{ github.repository }}/commit/${{github.sha}}">Click here</a>
-            
-            <b>Installation :</b> <a href="https://telegra.ph/LPoS-Kernel-Installation-Guide-02-09">Click here</a>
