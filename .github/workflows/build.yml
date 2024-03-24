@@ -8,7 +8,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         device: [S10_5G, S10, S10+, S10e, N10, N10+]
 
