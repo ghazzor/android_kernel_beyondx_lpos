@@ -4,10 +4,6 @@ export ARCH=arm64
 export PLATFORM_VERSION=12
 export ANDROID_MAJOR_VERSION=s
 
-<<<<<<< HEAD:build_kernel.sh
-make ARCH=arm64 exynos9820-beyondxks_defconfig
-make ARCH=arm64 -j16
-=======
 if [ -z "$DEVICE" ]; then
 export DEVICE=S10_5G
 fi
@@ -73,4 +69,3 @@ rm -rf lpos.*.zip
 zip -r1 lpos.${kmod}_${DEVICE}.zip * -x .git README.md *placeholder
 cd ..
 echo "  DONE"
->>>>>>> f526f0481 (Import other devices and Adapt build script and workflow):build.sh
