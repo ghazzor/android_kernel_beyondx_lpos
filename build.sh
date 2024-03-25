@@ -1,5 +1,6 @@
-#!/bin/bash
-
+PATH=$PWD/toolchain/bin:$PATH
+export LLVM_DIR=$PWD/toolchain/bin
+export LLVM=1
 export ARCH=arm64
 export PLATFORM_VERSION=12
 export ANDROID_MAJOR_VERSION=s
