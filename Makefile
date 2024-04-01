@@ -546,8 +546,8 @@ endif
 ifneq ($(GCC_TOOLCHAIN),)
 CLANG_FLAGS	+= --gcc-toolchain=$(GCC_TOOLCHAIN)
 endif
-# CC is clang, Turn on integrated AS if CC is clang 14 or later version
-ifeq ($(shell [ $(call __cc-version) -ge 1400 ] && echo 14),)
+# CC is clang, Turn on integrated AS if CC is clang 13 or later version
+ifeq ($(shell [ $(call __cc-version) -ge 1300 ] && echo 13),)
 CLANG_FLAGS	+= -no-integrated-as
 else
 LLVM_IAS        := 1
